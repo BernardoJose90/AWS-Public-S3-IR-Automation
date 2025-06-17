@@ -1,0 +1,35 @@
+description: Remediate public access on an S3 bucket
+schemaVersion: '0.3'
+assumeRole: '{{ AutomationAssumeRole }}'
+parameters:
+  BucketName:
+    type: String
+    description: (Required) Name of the S3 bucket to remediate
+  AutomationAssumeRole:
+    type: String
+    description: (Optional) IAM role ARN that Automation assumes to run actions
+    default: ''
+mainSteps:
+  - description: Block all public access on the S3 bucket
+    name: BlockPublicAccess
+    action: aws:executeAwsApi
+    nextStep: RemoveBucketPolicy
+    isEnd: false
+    inputs:
+      Service: s3
+      Api: PutPublicAccessBlock
+      Bucket: '{{ BucketName }}'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        IgnorePublicAcls: true
+        BlockPublicPolicy: true
+        RestrictPublicBuckets: true
+  - description: Delete bucket policy if exists
+    name: RemoveBucketPolicy
+    action: aws:executeAwsApi
+    isEnd: true
+    onFailure: Continue
+    inputs:
+      Service: s3
+      Api: DeleteBucketPolicy
+      Bucket: '{{ BucketName }}'
