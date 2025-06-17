@@ -7,9 +7,9 @@ Automated remediation workflow for public S3 buckets.
 ## Features
 
 - **Detection**: Handled by AWS Security Hub.
-- **Remediation**: Immediate action automatically for S3 buckets
+- **Remediation**: Automatically Immediate action for S3 buckets
 - **Comprehensive tracking**: Full incident lifecycle management in Systems Manager.
-- **Alerting**: Configured notifications 
+- **Alerting**: E-mail Configured for notifications 
 - **Audit trail**: Detailed logging of all remediation actions
 
 ## Architecture Overview
